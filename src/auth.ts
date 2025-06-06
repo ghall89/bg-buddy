@@ -21,6 +21,8 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           password as string,
         );
 
+        console.log(authenticatedUser);
+
         return authenticatedUser;
       },
     }),

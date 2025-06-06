@@ -3,9 +3,15 @@ import { compare, genSalt, hash } from 'bcrypt-ts';
 import UserClient, { NewUser, User } from '../clients/UserClient';
 
 export default class UserService {
-  user = new UserClient();
+  user: UserClient;
+
+  constructor() {
+    this.user = new UserClient();
+  }
 
   async register(newUser: NewUser) {
+    console.log(newUser);
+
     const salt = await genSalt(10);
     const hashedPassword = await hash(newUser.password, salt);
 

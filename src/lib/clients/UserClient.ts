@@ -1,5 +1,6 @@
-import { users } from '@/db/schema';
 import { eq } from 'drizzle-orm';
+
+import { users } from '@/db/schema';
 
 import BaseClient from './BaseClient';
 
@@ -11,13 +12,12 @@ export default class UserClient extends BaseClient<User> {
     super(users, users.id);
   }
 
-  async findByEmail(email: string):  Promise<User[]> {
+  async findByEmail(email: string): Promise<User[]> {
     const result = await this.db
       .select()
       .from(this.table)
       .where(eq(users.email, email));
 
     return result as User[];
-  }
   }
 }

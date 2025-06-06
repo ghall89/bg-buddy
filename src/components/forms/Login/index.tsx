@@ -1,3 +1,5 @@
+'use client';
+
 import {
   Button,
   Card,
@@ -6,11 +8,22 @@ import {
   Image,
   Input,
 } from '@heroui/react';
+import { useForm } from '@tanstack/react-form';
 import NextImage from 'next/image';
 
-import { signIn } from '@/auth';
+import { handleLogin } from './handleLogin';
 
 export default function Login() {
+  const form = useForm({
+    defaultValues: {
+      email: '',
+      password: '',
+    },
+    onSubmit: async ({ value }) => {
+      await handleLogin(value);
+    },
+  });
+
   return (
     <Card className="p-4 max-w-sm mx-auto">
       <CardHeader>
@@ -23,14 +36,37 @@ export default function Login() {
       </CardHeader>
       <CardBody className="overflow-visible py-2 flex flex-col gap-6">
         <form
-          action={async (formData) => {
-            'use server';
-
-            signIn('credentials', formData);
+          onSubmit={(e) => {
+            e.preventDefault();
+            form.handleSubmit();
           }}
         >
-          <Input label="Email" type="email" />
-          <Input label="Password" type="Password" />
+          <form.Field
+            name="email"
+            children={(field) => (
+              <Input
+                label="Email"
+                type="email"
+                name={field.name}
+                value={field.state.value}
+                onBlur={field.handleBlur}
+                onChange={(e) => field.handleChange(e.target.value)}
+              />
+            )}
+          />
+          <form.Field
+            name="password"
+            children={(field) => (
+              <Input
+                label="Password"
+                type="Password"
+                name={field.name}
+                value={field.state.value}
+                onBlur={field.handleBlur}
+                onChange={(e) => field.handleChange(e.target.value)}
+              />
+            )}
+          />
           <Button type="submit" color="primary">
             Login
           </Button>

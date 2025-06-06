@@ -14,6 +14,12 @@ importers:
       '@heroui/react':
         specifier: ^2.7.5
         version: 2.7.9(@types/react@19.1.6)(framer-motion@12.16.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(tailwindcss@3.4.17)
+      '@tanstack/react-form':
+        specifier: ^1.12.2
+        version: 1.12.2(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+      '@tanstack/react-query':
+        specifier: ^5.80.6
+        version: 5.80.6(react@19.1.0)
       '@vercel/postgres':
         specifier: ^0.10.0
         version: 0.10.0
@@ -2087,11 +2093,43 @@ packages:
   '@swc/helpers@0.5.17':
     resolution: {integrity: sha512-5IKx/Y13RsYd+sauPb2x+U/xZikHjolzfuDgTAl/Tdf3Q8rslRvC19NKDLgAJQ6wsqADk10ntlv08nPFw/gO/A==}
 
+  '@tanstack/form-core@1.12.2':
+    resolution: {integrity: sha512-5nigvx9FAtWWKpDRnhdGrsMC4LjKGdk4+SnJ8xP/phOvW0ffan5atX1u+RvBifWBOIOD6W2tmGDgelUHyJLCpA==}
+
+  '@tanstack/query-core@5.80.6':
+    resolution: {integrity: sha512-nl7YxT/TAU+VTf+e2zTkObGTyY8YZBMnbgeA1ee66lIVqzKlYursAII6z5t0e6rXgwUMJSV4dshBTNacNpZHbQ==}
+
+  '@tanstack/react-form@1.12.2':
+    resolution: {integrity: sha512-pXp+R6EbK0ObK/MpSkczO6A0/W9yw7dl+y8BVLC4hSYrWz/jMXmbsB7fD278AfR5Uvo2iq0D4Wpj+X8qC+TFIg==}
+    peerDependencies:
+      '@tanstack/react-start': ^1.112.0
+      react: ^17.0.0 || ^18.0.0 || ^19.0.0
+      vinxi: ^0.5.0
+    peerDependenciesMeta:
+      '@tanstack/react-start':
+        optional: true
+      vinxi:
+        optional: true
+
+  '@tanstack/react-query@5.80.6':
+    resolution: {integrity: sha512-izX+5CnkpON3NQGcEm3/d7LfFQNo9ZpFtX2QsINgCYK9LT2VCIdi8D3bMaMSNhrAJCznRoAkFic76uvLroALBw==}
+    peerDependencies:
+      react: ^18 || ^19
+
+  '@tanstack/react-store@0.7.1':
+    resolution: {integrity: sha512-qUTEKdId6QPWGiWyKAPf/gkN29scEsz6EUSJ0C3HgLMgaqTAyBsQ2sMCfGVcqb+kkhEXAdjleCgH6LAPD6f2sA==}
+    peerDependencies:
+      react: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
+      react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
+
   '@tanstack/react-virtual@3.11.3':
     resolution: {integrity: sha512-vCU+OTylXN3hdC8RKg68tPlBPjjxtzon7Ys46MgrSLE+JhSjSTPvoQifV6DQJeJmA8Q3KT6CphJbejupx85vFw==}
     peerDependencies:
       react: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
       react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
+
+  '@tanstack/store@0.7.1':
+    resolution: {integrity: sha512-PjUQKXEXhLYj2X5/6c1Xn/0/qKY0IVFxTJweopRfF26xfjVyb14yALydJrHupDh3/d+1WKmfEgZPBVCmDkzzwg==}
 
   '@tanstack/virtual-core@3.11.3':
     resolution: {integrity: sha512-v2mrNSnMwnPJtcVqNvV0c5roGCBqeogN8jDtgtuHCphdwBasOZ17x8UV8qpHUh+u0MLfX43c0uUHKje0s+Zb0w==}
@@ -2552,6 +2590,9 @@ packages:
   decimal.js@10.5.0:
     resolution: {integrity: sha512-8vDa8Qxvr/+d94hSh5P3IJwI5t8/c0KsMp+g8bNw9cY2icONa5aPfvKeieW1WlG0WQYwwhJ7mjui2xtiePQSXw==}
 
+  decode-formdata@0.9.0:
+    resolution: {integrity: sha512-q5uwOjR3Um5YD+ZWPOF/1sGHVW9A5rCrRwITQChRXlmPkxDFBqCm4jNTIVdGHNH9OnR+V9MoZVgRhsFb+ARbUw==}
+
   deep-is@0.1.4:
     resolution: {integrity: sha512-oIPzksmTg4/MriiaYGO+okXDT7ztn/w3Eptv/+gSIdMdKsJo0u4CfYNFJPy+4SKMuCqGw2wxnA+URMg3t8a/bQ==}
 
@@ -2570,6 +2611,9 @@ packages:
   detect-libc@2.0.4:
     resolution: {integrity: sha512-3UDv+G9CsCKO1WKMGw9fwq/SWJYbI0c5Y7LU1AXYoDdbhE2AHQ6N6Nb34sG8Fj7T5APy8qXDCKuuIHd1BR0tVA==}
     engines: {node: '>=8'}
+
+  devalue@5.1.1:
+    resolution: {integrity: sha512-maua5KUiapvEwiEAe+XnlZ3Rh0GD+qI1J/nb9vrJc3muPXvcF/8gXYTWF76+5DAqHyDUtOIImEuo0YKE9mshVw==}
 
   didyoumean@1.2.2:
     resolution: {integrity: sha512-gxtyfqMg7GKyhQmb056K7M3xszy/myH8w+B4RT+QXBQsvAOdc3XymqDDPHx1BgPgsdAA5SIifona89YtRATDzw==}
@@ -6816,11 +6860,41 @@ snapshots:
     dependencies:
       tslib: 2.8.1
 
+  '@tanstack/form-core@1.12.2':
+    dependencies:
+      '@tanstack/store': 0.7.1
+
+  '@tanstack/query-core@5.80.6': {}
+
+  '@tanstack/react-form@1.12.2(react-dom@19.1.0(react@19.1.0))(react@19.1.0)':
+    dependencies:
+      '@tanstack/form-core': 1.12.2
+      '@tanstack/react-store': 0.7.1(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+      decode-formdata: 0.9.0
+      devalue: 5.1.1
+      react: 19.1.0
+    transitivePeerDependencies:
+      - react-dom
+
+  '@tanstack/react-query@5.80.6(react@19.1.0)':
+    dependencies:
+      '@tanstack/query-core': 5.80.6
+      react: 19.1.0
+
+  '@tanstack/react-store@0.7.1(react-dom@19.1.0(react@19.1.0))(react@19.1.0)':
+    dependencies:
+      '@tanstack/store': 0.7.1
+      react: 19.1.0
+      react-dom: 19.1.0(react@19.1.0)
+      use-sync-external-store: 1.5.0(react@19.1.0)
+
   '@tanstack/react-virtual@3.11.3(react-dom@19.1.0(react@19.1.0))(react@19.1.0)':
     dependencies:
       '@tanstack/virtual-core': 3.11.3
       react: 19.1.0
       react-dom: 19.1.0(react@19.1.0)
+
+  '@tanstack/store@0.7.1': {}
 
   '@tanstack/virtual-core@3.11.3': {}
 
@@ -7301,6 +7375,8 @@ snapshots:
 
   decimal.js@10.5.0: {}
 
+  decode-formdata@0.9.0: {}
+
   deep-is@0.1.4: {}
 
   deepmerge@4.3.1: {}
@@ -7319,6 +7395,8 @@ snapshots:
 
   detect-libc@2.0.4:
     optional: true
+
+  devalue@5.1.1: {}
 
   didyoumean@1.2.2: {}
 
