@@ -1,35 +1,43 @@
 import { compare, genSalt, hash } from 'bcrypt-ts';
 
-import UserClient, { NewUser, User } from '../clients/UserClient';
+import UserRepository, { NewUser, User } from '../repositories/UserRepository';
 
 export default class UserService {
-  user: UserClient;
+  user: UserRepository;
 
   constructor() {
-    this.user = new UserClient();
+    this.user = new UserRepository();
   }
 
-  async register(newUser: NewUser) {
+  async register(newUser: NewUser): Promise<User | null> {
     console.log(newUser);
 
     const salt = await genSalt(10);
     const hashedPassword = await hash(newUser.password, salt);
 
-    const createdUser = this.user.create({
+    const createdUser = await this.user.createOne({
       ...newUser,
       password: hashedPassword,
     });
+
+    if (!createdUser) {
+      return null;
+    }
+
+    return createdUser as User;
   }
 
   async authenticate(email: string, password: string): Promise<User | null> {
     const user = await this.user.findByEmail(email);
 
-    if (user.length === 0) {
+    if (!user) {
       return null;
     }
 
-    let passwordsMatch = await compare(password, user[0].password!);
-    if (passwordsMatch) return user[0];
+    let passwordsMatch = await compare(password, user.password!);
+    if (passwordsMatch) {
+      return user;
+    }
 
     return null;
   }

@@ -1,9 +1,10 @@
 import { relations } from 'drizzle-orm';
-import { boolean, pgTable, varchar } from 'drizzle-orm/pg-core';
+import { boolean, pgTable, smallint, varchar } from 'drizzle-orm/pg-core';
 
 import { creationInfo } from '../columns.helpers';
 import { games } from './games';
 import { playLogs } from './playLogs';
+import { users } from './users';
 
 export const userGames = pgTable('user_games', {
   ...creationInfo,
@@ -12,16 +13,23 @@ export const userGames = pgTable('user_games', {
   owned: boolean().notNull().default(false),
   wishlist: boolean().notNull().default(false),
   previously_owned: boolean().notNull().default(false),
+  rating: smallint(),
   game_id: varchar()
     .notNull()
-    .unique()
     .references(() => games.id),
+  user_id: varchar()
+    .notNull()
+    .references(() => users.id),
 });
 
 export const userGameRelations = relations(userGames, ({ one, many }) => ({
-  game_info: one(games, {
+  game: one(games, {
     fields: [userGames.game_id],
     references: [games.id],
+  }),
+  user: one(users, {
+    fields: [userGames.user_id],
+    references: [users.id],
   }),
   play_logs: many(playLogs),
 }));

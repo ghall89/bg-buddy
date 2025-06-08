@@ -1,19 +1,20 @@
 import { relations } from 'drizzle-orm';
-import { pgTable, varchar } from 'drizzle-orm/pg-core';
+import { integer, pgTable, smallint, varchar } from 'drizzle-orm/pg-core';
 
 import { creationInfo } from '../columns.helpers';
-import { gameInfo } from './gameInfo';
+import { userGames } from './userGames';
 
 export const games = pgTable('game', {
   ...creationInfo,
   bgg_id: varchar().unique().notNull(),
   title: varchar().notNull(),
-  game_info_id: varchar().notNull().unique(),
+  min_players: smallint(),
+  max_players: smallint(),
+  best_player_count: smallint(),
+  est_playtime: integer(),
+  description: varchar(),
 });
 
-export const gameRelations = relations(games, ({ one }) => ({
-  game_info: one(gameInfo, {
-    fields: [games.game_info_id],
-    references: [gameInfo.id],
-  }),
+export const gameRelations = relations(games, ({ many }) => ({
+  userGames: many(userGames),
 }));

@@ -1,6 +1,6 @@
 {
-  "id": "90901eb8-3700-4c5d-83fe-759a6a577077",
-  "prevId": "00000000-0000-0000-0000-000000000000",
+  "id": "37fd5287-0f76-45d1-b7a1-5036691268aa",
+  "prevId": "26fe525f-1c9e-4ea4-b4d0-4ef489af4dfa",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
@@ -474,12 +474,6 @@
           "primaryKey": false,
           "notNull": true
         },
-        "game_id": {
-          "name": "game_id",
-          "type": "varchar",
-          "primaryKey": false,
-          "notNull": true
-        },
         "user_game_id": {
           "name": "user_game_id",
           "type": "varchar",
@@ -495,19 +489,6 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "play_log_game_id_game_id_fk": {
-          "name": "play_log_game_id_game_id_fk",
-          "tableFrom": "play_log",
-          "tableTo": "game",
-          "columnsFrom": [
-            "game_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
-        },
         "play_log_user_game_id_user_games_id_fk": {
           "name": "play_log_user_game_id_user_games_id_fk",
           "tableFrom": "play_log",
@@ -537,13 +518,6 @@
       },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {
-        "play_log_game_id_unique": {
-          "name": "play_log_game_id_unique",
-          "nullsNotDistinct": false,
-          "columns": [
-            "game_id"
-          ]
-        },
         "play_log_user_game_id_unique": {
           "name": "play_log_user_game_id_unique",
           "nullsNotDistinct": false,
@@ -638,6 +612,12 @@
           "type": "varchar",
           "primaryKey": false,
           "notNull": true
+        },
+        "user_id": {
+          "name": "user_id",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
         }
       },
       "indexes": {},
@@ -654,18 +634,23 @@
           ],
           "onDelete": "no action",
           "onUpdate": "no action"
+        },
+        "user_games_user_id_user_id_fk": {
+          "name": "user_games_user_id_user_id_fk",
+          "tableFrom": "user_games",
+          "tableTo": "user",
+          "columnsFrom": [
+            "user_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
         }
       },
       "compositePrimaryKeys": {},
-      "uniqueConstraints": {
-        "user_games_game_id_unique": {
-          "name": "user_games_game_id_unique",
-          "nullsNotDistinct": false,
-          "columns": [
-            "game_id"
-          ]
-        }
-      },
+      "uniqueConstraints": {},
       "policies": {},
       "checkConstraints": {},
       "isRLSEnabled": false
