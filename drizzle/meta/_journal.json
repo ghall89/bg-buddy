@@ -8,6 +8,13 @@
       "when": 1749387663314,
       "tag": "0000_slimy_psynapse",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1749397856090,
+      "tag": "0001_tiresome_daimon_hellstrom",
+      "breakpoints": true
     }
   ]
 }

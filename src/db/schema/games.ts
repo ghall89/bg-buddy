@@ -8,8 +8,12 @@ export const games = pgTable('game', {
   ...creationInfo,
   bgg_id: varchar().unique().notNull(),
   title: varchar().notNull(),
+  game_info_id: varchar().notNull().unique(),
 });
 
 export const gameRelations = relations(games, ({ one }) => ({
-  game_info: one(gameInfo),
+  game_info: one(gameInfo, {
+    fields: [games.game_info_id],
+    references: [gameInfo.id],
+  }),
 }));
