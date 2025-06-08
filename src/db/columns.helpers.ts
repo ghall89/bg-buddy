@@ -1,9 +1,10 @@
-import { text, timestamp } from 'drizzle-orm/pg-core';
+import cuid from 'cuid';
+import { timestamp, varchar } from 'drizzle-orm/pg-core';
 
 export const creationInfo = {
-  id: text('id')
+  id: varchar()
     .primaryKey()
-    .$defaultFn(() => crypto.randomUUID()),
+    .$defaultFn(() => cuid()),
   updated_at: timestamp(),
   created_at: timestamp().defaultNow().notNull(),
   deleted_at: timestamp(),
