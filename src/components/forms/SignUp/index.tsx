@@ -10,17 +10,33 @@ import {
 } from '@heroui/react';
 import { useForm } from '@tanstack/react-form';
 import NextImage from 'next/image';
+import { z } from 'zod';
 
-import { register } from './register';
+import { handleSignup } from './handleSignup';
+
+const signUpSchema = z
+  .object({
+    email: z.string().email(),
+    password: z.string().nonempty(),
+    confirmPassword: z.string(),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: 'Passwords do not match',
+    path: ['confirmPassword'],
+  });
 
 export default function SignUp() {
   const form = useForm({
     defaultValues: {
       email: '',
       password: '',
+      confirmPassword: '',
+    },
+    validators: {
+      onSubmit: signUpSchema,
     },
     onSubmit: async ({ value }) => {
-      await register(value.email, value.password);
+      await handleSignup(value.email, value.password);
     },
   });
 
@@ -51,6 +67,8 @@ export default function SignUp() {
                 value={field.state.value}
                 onBlur={field.handleBlur}
                 onChange={(e) => field.handleChange(e.target.value)}
+                errorMessage="Please enter a valid email"
+                isInvalid={!field.state.meta.isValid}
               />
             )}
           />
@@ -64,11 +82,28 @@ export default function SignUp() {
                 value={field.state.value}
                 onBlur={field.handleBlur}
                 onChange={(e) => field.handleChange(e.target.value)}
+                errorMessage="Please enter a password"
+                isInvalid={!field.state.meta.isValid}
+              />
+            )}
+          />
+          <form.Field
+            name="confirmPassword"
+            children={(field) => (
+              <Input
+                label="Confirm Password"
+                type="Password"
+                name={field.name}
+                value={field.state.value}
+                onBlur={field.handleBlur}
+                onChange={(e) => field.handleChange(e.target.value)}
+                errorMessage="Passwords must match"
+                isInvalid={!field.state.meta.isValid}
               />
             )}
           />
           <Button type="submit" color="primary">
-            Login
+            Create Account
           </Button>
         </form>
       </CardBody>

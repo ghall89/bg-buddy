@@ -9,11 +9,17 @@ import {
   Input,
 } from '@heroui/react';
 import { useForm } from '@tanstack/react-form';
+import { Eye, EyeClosed } from 'lucide-react';
 import NextImage from 'next/image';
+import { useState } from 'react';
 
 import { handleLogin } from './handleLogin';
 
 export default function Login() {
+  const [isVisible, setIsVisible] = useState(false);
+
+  const toggleVisibility = () => setIsVisible(!isVisible);
+
   const form = useForm({
     defaultValues: {
       email: '',
@@ -59,11 +65,25 @@ export default function Login() {
             children={(field) => (
               <Input
                 label="Password"
-                type="Password"
+                type={isVisible ? 'text' : 'password'}
                 name={field.name}
                 value={field.state.value}
                 onBlur={field.handleBlur}
                 onChange={(e) => field.handleChange(e.target.value)}
+                endContent={
+                  <button
+                    aria-label="toggle password visibility"
+                    className="focus:outline-none"
+                    type="button"
+                    onClick={toggleVisibility}
+                  >
+                    {isVisible ? (
+                      <Eye className="text-2xl text-default-400 pointer-events-none" />
+                    ) : (
+                      <EyeClosed className="text-2xl text-default-400 pointer-events-none" />
+                    )}
+                  </button>
+                }
               />
             )}
           />

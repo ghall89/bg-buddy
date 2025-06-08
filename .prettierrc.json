@@ -4,7 +4,13 @@
   "tabWidth": 2,
   "plugins": ["@trivago/prettier-plugin-sort-imports"],
   "binaryNextLine": true,
-  "importOrder": ["^@/(.*)$", "^[./]"],
+  "importOrder": [
+    "^@/(.*)$",
+    "^@/db/(.*)$",
+    "^@/lib/(.*)$",
+    "^@/components/(.*)$",
+    "^[./]"
+  ],
   "importOrderSeparation": true,
   "importOrderSortSpecifiers": true
 }
