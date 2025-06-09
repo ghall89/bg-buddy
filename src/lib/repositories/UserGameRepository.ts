@@ -12,11 +12,29 @@ export default class UserGameRepository extends BaseClient<UserGame> {
     super(userGames, userGames.id);
   }
 
-  async getByUserId(userId: string): Promise<UserGame[]> {
+  async findByUserId(userId: string): Promise<UserGame[]> {
     const games = await this.db.query.userGames.findMany({
       where: eq(userGames.user_id, userId),
+      with: {
+        game: true,
+        play_logs: true,
+        user: true,
+      },
     });
 
     return games;
+  }
+
+  async findById(id: string): Promise<UserGame | undefined> {
+    const game = await this.db.query.userGames.findFirst({
+      where: eq(userGames.id, id),
+      with: {
+        game: true,
+        play_logs: true,
+        user: true,
+      },
+    });
+
+    return game as UserGame | undefined;
   }
 }

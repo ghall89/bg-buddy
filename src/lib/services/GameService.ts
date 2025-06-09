@@ -1,4 +1,4 @@
-import GameRepository, { NewGame } from '../repositories/GameRepository';
+import GameRepository, { Game, NewGame } from '../repositories/GameRepository';
 
 export default class GameService {
   game: GameRepository;
@@ -7,7 +7,23 @@ export default class GameService {
     this.game = new GameRepository();
   }
 
-  async addGame(newGame: NewGame) {
+  async addGame(newGame: NewGame): Promise<Game> {
     return this.game.createOne(newGame);
+  }
+
+  async allGames(): Promise<Game[]> {
+    return this.game.findAll();
+  }
+
+  async gameById(id: string): Promise<Game | undefined> {
+    return this.game.findById(id);
+  }
+
+  async gameByBGGId(bggId: string): Promise<Game | undefined> {
+    return this.game.findByBGGId(bggId);
+  }
+
+  async gamesByPlayerCount(players: number): Promise<Game[]> {
+    return this.game.findByPlayerCount(players);
   }
 }

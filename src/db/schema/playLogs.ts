@@ -11,11 +11,9 @@ export const playLogs = pgTable('play_log', {
   played_date: date().notNull(),
   user_game_id: varchar()
     .notNull()
-    .unique()
     .references(() => userGames.id),
   creator_id: varchar()
     .notNull()
-    .unique()
     .references(() => users.id),
 });
 

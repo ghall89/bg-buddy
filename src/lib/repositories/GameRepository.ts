@@ -12,20 +12,17 @@ export default class GameRepository extends BaseClient<Game> {
     super(games, games.id);
   }
 
-  async findByBGGId(bggId: string): Promise<Game[]> {
+  async findByBGGId(bggId: string): Promise<Game | undefined> {
     const result = await this.db
       .select()
       .from(this.table)
       .where(eq(games.bgg_id, bggId));
 
-    return result as Game[];
+    return result[0] as Game | undefined;
   }
 
   async findByPlayerCount(players: number): Promise<Game[]> {
     const result = await this.db.query.games.findMany({
-      with: {
-        game_info: true,
-      },
       where: and(
         gte(games.min_players, players),
         lte(games.max_players, players),

@@ -22,6 +22,13 @@
       "when": 1749410046828,
       "tag": "0002_marvelous_juggernaut",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1749481101888,
+      "tag": "0003_nifty_frank_castle",
+      "breakpoints": true
     }
   ]
 }
