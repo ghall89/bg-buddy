@@ -1,6 +1,6 @@
 import { NewGame } from '@/lib/repositories/GameRepository';
 import CollectionService from '@/lib/services/CollectionService';
-import GameService from '@/lib/services/GameService';
+import GameService from '@/lib/services/game-service';
 
 async function main() {
   const gameService = new GameService();

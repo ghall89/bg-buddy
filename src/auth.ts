@@ -3,7 +3,7 @@ import NextAuth from 'next-auth';
 import Credentials from 'next-auth/providers/credentials';
 
 import { db } from './db/schema';
-import UserService from './lib/services/UserService';
+import AuthService from './lib/services/auth-service';
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   adapter: DrizzleAdapter(db),
@@ -14,9 +14,9 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         password: {},
       },
       async authorize({ email, password }) {
-        const userService = new UserService();
+        const authService = new AuthService();
 
-        const authenticatedUser = await userService.authenticate(
+        const authenticatedUser = await authService.authenticate(
           email as string,
           password as string,
         );

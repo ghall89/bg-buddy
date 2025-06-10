@@ -3,10 +3,10 @@ import { boolean, pgTable, smallint, varchar } from 'drizzle-orm/pg-core';
 
 import { creationInfo } from '../columns.helpers';
 import { games } from './games';
-import { playLogs } from './playLogs';
+import { playLogs } from './play-logs';
 import { users } from './users';
 
-export const userGames = pgTable('user_games', {
+export const userGames = pgTable('user_game', {
   ...creationInfo,
   played: boolean().notNull().default(false),
   want_to_play: boolean().notNull().default(false),

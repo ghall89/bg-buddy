@@ -2,7 +2,7 @@ import { eq } from 'drizzle-orm';
 
 import { playLogs } from '@/db/schema';
 
-import BaseRepository from './BaseRepository';
+import BaseRepository from './base-repository';
 
 export type PlayLog = typeof playLogs.$inferSelect;
 export type NewPlayLog = typeof playLogs.$inferInsert;

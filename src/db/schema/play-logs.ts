@@ -2,8 +2,8 @@ import { relations } from 'drizzle-orm';
 import { date, pgTable, varchar } from 'drizzle-orm/pg-core';
 
 import { creationInfo } from '../columns.helpers';
-import { playLogPlayers } from './playLogPlayers';
-import { userGames } from './userGames';
+import { playLogPlayers } from './play-log-players';
+import { userGames } from './user-games';
 import { users } from './users';
 
 export const playLogs = pgTable('play_log', {

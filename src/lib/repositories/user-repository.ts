@@ -2,7 +2,7 @@ import { eq } from 'drizzle-orm';
 
 import { users } from '@/db/schema';
 
-import BaseRepository from './BaseRepository';
+import BaseRepository from './base-repository';
 
 export type User = typeof users.$inferSelect;
 export type NewUser = typeof users.$inferInsert;

@@ -3,7 +3,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'next/navigation';
 
-import { getGameById } from './getGameById';
+import { getGameById } from './get-game-by-id';
 
 export default function Page() {
   const params = useParams<{ id: string }>();

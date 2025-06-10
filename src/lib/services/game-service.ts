@@ -1,4 +1,4 @@
-import GameRepository, { Game, NewGame } from '../repositories/GameRepository';
+import GameRepository, { Game, NewGame } from '../repositories/game-repository';
 
 export default class GameService {
   game: GameRepository;

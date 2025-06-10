@@ -1,8 +1,8 @@
 import { compare, genSalt, hash } from 'bcrypt-ts';
 
-import UserRepository, { NewUser, User } from '../repositories/UserRepository';
+import UserRepository, { NewUser, User } from '../repositories/user-repository';
 
-export default class UserService {
+export default class AuthService {
   user: UserRepository;
 
   constructor() {

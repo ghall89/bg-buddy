@@ -1,15 +1,14 @@
 import PlayLogPlayerRepository, {
   NewPlayLogPlayer,
-  PlayLogPlayer,
-} from '../repositories/PlayLogPlayerRepository';
+} from '../repositories/play-log-player-repository';
 import PlayLogRepository, {
   NewPlayLog,
   PlayLog,
-} from '../repositories/PlayLogRepository';
+} from '../repositories/play-log-repository';
 import UserGameRepository, {
   NewUserGame,
   UserGame,
-} from '../repositories/UserGameRepository';
+} from '../repositories/user-game-repository';
 
 export default class CollectionService {
   userGame: UserGameRepository;

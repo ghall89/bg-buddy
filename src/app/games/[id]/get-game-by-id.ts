@@ -1,6 +1,6 @@
 'use server';
 
-import GameService from '@/lib/services/GameService';
+import GameService from '@/lib/services/game-service';
 
 export async function getGameById(id: string) {
   const gameService = new GameService();

@@ -2,7 +2,7 @@ import { eq } from 'drizzle-orm';
 
 import { userGames } from '@/db/schema';
 
-import BaseClient from './BaseRepository';
+import BaseClient from './base-repository';
 
 export type UserGame = typeof userGames.$inferSelect;
 export type NewUserGame = typeof userGames.$inferInsert;

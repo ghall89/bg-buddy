@@ -3,7 +3,7 @@
 import { useQuery } from '@tanstack/react-query';
 import Link from 'next/link';
 
-import { getGames } from './getGames';
+import { getGames } from './get-games';
 
 export default function Page() {
   const { data } = useQuery({

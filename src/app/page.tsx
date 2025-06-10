@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 
-import Login from '@/components/forms/Login';
+import Login from '@/components/auth/login';
 
 export const metadata: Metadata = {
   title: 'My Page Title',
