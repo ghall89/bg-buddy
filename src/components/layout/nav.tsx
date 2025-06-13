@@ -12,12 +12,14 @@ export default function Nav() {
   return (
     <Navbar>
       <NavbarBrand>
-        <Dices />
-        <p className="font-bold text-inherit">BGBuddy</p>
+        <Link href="/" color="foreground">
+          <Dices />
+          <p className="font-bold text-inherit">BGBuddy</p>
+        </Link>
       </NavbarBrand>
       <NavbarContent justify="end">
         <NavbarItem>
-          <Button as={Link} color="primary" href="/signup" variant="flat">
+          <Button as={Link} color="primary" href="/sign-up" variant="ghost">
             Sign Up
           </Button>
         </NavbarItem>

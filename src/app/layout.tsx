@@ -13,7 +13,7 @@ export default function RootLayout({
       <body>
         <Providers>
           <Nav />
-          {children}
+          <main className="mx-4">{children}</main>
         </Providers>
       </body>
     </html>
