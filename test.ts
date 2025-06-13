@@ -1,16 +1,11 @@
-import { NewGame } from '@/lib/repositories/GameRepository';
-import CollectionService from '@/lib/services/CollectionService';
-import GameService from '@/lib/services/game-service';
+import BoardGameGeekService from '@/lib/services/bgg-service';
 
 async function main() {
-  const gameService = new GameService();
-  const collectionService = new CollectionService();
+  const bgg = new BoardGameGeekService();
 
-  const userGame = await collectionService.createPlayLog(
-    'cmbo1lhm500016x8o4x1p1anp',
-  );
+  const games = await bgg.getGameById('379629');
 
-  console.log(userGame);
+  console.log(games);
 }
 
 main();

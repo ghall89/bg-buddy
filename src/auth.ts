@@ -2,11 +2,16 @@ import { DrizzleAdapter } from '@auth/drizzle-adapter';
 import NextAuth from 'next-auth';
 import Credentials from 'next-auth/providers/credentials';
 
-import { db } from './db/schema';
+import { dbClient } from './db';
 import AuthService from './lib/services/auth-service';
 
+export interface Credentials {
+  email: string;
+  password: string;
+}
+
 export const { handlers, auth, signIn, signOut } = NextAuth({
-  adapter: DrizzleAdapter(db),
+  adapter: DrizzleAdapter(dbClient),
   providers: [
     Credentials({
       credentials: {

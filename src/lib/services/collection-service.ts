@@ -3,7 +3,7 @@ import PlayLogPlayerRepository, {
 } from '../repositories/play-log-player-repository';
 import PlayLogRepository, {
   NewPlayLog,
-  PlayLog,
+  PlayLogWithRelations,
 } from '../repositories/play-log-repository';
 import UserGameRepository, {
   NewUserGame,
@@ -52,7 +52,7 @@ export default class CollectionService {
 
   /* Play Logs */
 
-  async createPlayLog(userGameId: string): Promise<PlayLog> {
+  async createPlayLog(userGameId: string): Promise<PlayLogWithRelations> {
     const userGame = await this.userGame.findById(userGameId);
 
     if (!userGame) {
@@ -67,11 +67,11 @@ export default class CollectionService {
 
     const playLogPlayer = await this.addPlayerToPlayLog(
       playLog.id,
-      userGame.user.name,
+      userGame?.user?.name ?? 'New Player',
       userGame.user_id,
     );
 
-    return { ...playLog, play_log_player: playLogPlayer };
+    return { ...playLog, players: [playLogPlayer] };
   }
 
   async getPlayLogById(id: string) {

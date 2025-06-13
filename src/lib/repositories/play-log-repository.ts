@@ -3,8 +3,16 @@ import { eq } from 'drizzle-orm';
 import { playLogs } from '@/db/schema';
 
 import BaseRepository from './base-repository';
+import { PlayLogPlayer } from './play-log-player-repository';
+import { UserGame } from './user-game-repository';
+import { User } from './user-repository';
 
 export type PlayLog = typeof playLogs.$inferSelect;
+export type PlayLogWithRelations = PlayLog & {
+  players?: PlayLogPlayer[];
+  user_game?: UserGame;
+  created_by?: User;
+};
 export type NewPlayLog = typeof playLogs.$inferInsert;
 
 export default class PlayLogRepository extends BaseRepository<PlayLog> {
