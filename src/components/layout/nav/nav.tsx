@@ -8,6 +8,8 @@ import {
 } from '@heroui/react';
 import { Dices } from 'lucide-react';
 
+import UserMenu from './user-menu';
+
 export default function Nav() {
   return (
     <Navbar>
@@ -18,11 +20,7 @@ export default function Nav() {
         </Link>
       </NavbarBrand>
       <NavbarContent justify="end">
-        <NavbarItem>
-          <Button as={Link} color="primary" href="/sign-up" variant="ghost">
-            Sign Up
-          </Button>
-        </NavbarItem>
+        <UserMenu />
       </NavbarContent>
     </Navbar>
   );
