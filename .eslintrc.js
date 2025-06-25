@@ -5,7 +5,7 @@ module.exports = {
     node: true,
     es2021: true,
   },
-  plugins: ['prettier', 'react', 'react-hooks', 'prettier'],
+  plugins: ['prettier', 'react', 'react-hooks'],
   rules: {
     'react/no-children-prop': 'off',
   },
