@@ -1,5 +1,3 @@
-'use client';
-
 import {
   Button,
   NavbarItem,
@@ -8,14 +6,9 @@ import {
   PopoverTrigger,
 } from '@heroui/react';
 import { CircleUserRound } from 'lucide-react';
-import Link from 'next/link';
 
-import { useAuth } from '@/lib/providers/auth-provider';
-
-export default function UserMenu() {
-  const { isAuthenticated } = useAuth();
-
-  return isAuthenticated ? (
+export default async function UserMenu() {
+  return (
     <NavbarItem>
       <Popover placement="bottom" showArrow={true}>
         <PopoverTrigger>
@@ -30,12 +23,6 @@ export default function UserMenu() {
           </div>
         </PopoverContent>
       </Popover>
-    </NavbarItem>
-  ) : (
-    <NavbarItem>
-      <Button as={Link} color="primary" href="/login" variant="ghost">
-        Login
-      </Button>
     </NavbarItem>
   );
 }

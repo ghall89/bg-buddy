@@ -1,11 +1,4 @@
-import {
-  Button,
-  Link,
-  Navbar,
-  NavbarBrand,
-  NavbarContent,
-  NavbarItem,
-} from '@heroui/react';
+import { Link, Navbar, NavbarBrand, NavbarContent } from '@heroui/react';
 import { Dices } from 'lucide-react';
 
 import UserMenu from './user-menu';

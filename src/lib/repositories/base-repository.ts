@@ -1,7 +1,7 @@
 import { eq } from 'drizzle-orm';
 import { type AnyPgColumn, type PgTable } from 'drizzle-orm/pg-core';
 
-import { dbClient } from '@/db';
+import { dbClient } from '@/db/drizzle';
 
 interface IBaseRepository<T> {
   createOne(item: Partial<T>): Promise<T>;

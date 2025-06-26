@@ -1,6 +1,6 @@
 import { and, eq, gte, lte } from 'drizzle-orm';
 
-import { games } from '@/db/schema';
+import { games } from '@/db/drizzle/schema';
 
 import BaseClient from './base-repository';
 

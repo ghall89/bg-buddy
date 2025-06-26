@@ -1,3 +1,4 @@
+import BottomTabs from '@/components/layout/bottom-tabs';
 import Nav from '@/components/layout/nav/nav';
 
 import './globals.css';
@@ -14,6 +15,7 @@ export default function RootLayout({
         <Providers>
           <Nav />
           <main className="mx-4">{children}</main>
+          <BottomTabs />
         </Providers>
       </body>
     </html>

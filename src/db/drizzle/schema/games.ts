@@ -1,8 +1,6 @@
-import { relations } from 'drizzle-orm';
 import { integer, pgTable, smallint, varchar } from 'drizzle-orm/pg-core';
 
 import { creationInfo } from '../columns.helpers';
-import { userGames } from './user-games';
 
 export const games = pgTable('game', {
   ...creationInfo,
@@ -14,7 +12,3 @@ export const games = pgTable('game', {
   est_playtime: integer(),
   description: varchar(),
 });
-
-export const gameRelations = relations(games, ({ many }) => ({
-  userGames: many(userGames),
-}));
