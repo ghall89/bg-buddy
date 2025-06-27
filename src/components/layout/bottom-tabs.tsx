@@ -23,7 +23,7 @@ export default function BottomTabs() {
   ];
 
   return (
-    <div className="absolute bottom-0 w-full p-2 flex justify-center gap-2">
+    <div className="bottom-0 w-full p-2 flex justify-center gap-2 fixed bg-white/90 backdrop-blur-lg z-50">
       <Tabs>
         {options.map((option) => (
           <Tab key={option.key} aria-label={option.label} title={option.icon} />

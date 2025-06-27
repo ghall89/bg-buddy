@@ -2,21 +2,21 @@ import { Table } from 'dexie';
 
 import { db } from '@/db/dexie';
 
-export type DbTable = keyof typeof db;
+export type DatabaseTable = keyof typeof db;
 
-type EntityFromTable<K extends DbTable> =
+type EntityFromTable<K extends DatabaseTable> =
   (typeof db)[K] extends Table<infer T, any> ? T : never;
 
-export default class DexieClient<K extends DbTable> {
+export default class DexieClient<K extends DatabaseTable> {
   table: Table<EntityFromTable<K>, number>;
 
   constructor(table: K) {
     this.table = db[table] as unknown as Table<EntityFromTable<K>, number>;
   }
 
-  private runAction<T>(fn: () => Promise<T>): Promise<T> {
+  private runAction<T>(action: () => Promise<T>): Promise<T> {
     try {
-      return fn();
+      return action();
     } catch (error) {
       return Promise.reject(error);
     }

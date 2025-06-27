@@ -1,8 +1,8 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
 
-import DexieClient, { DbTable } from '../clients/dexie-client';
+import DexieClient, { DatabaseTable } from '../clients/dexie-client';
 
-export const useDexieQuery = (table: DbTable) =>
+export const useDexieQuery = (table: DatabaseTable) =>
   useQuery({
     queryFn: async () => {
       const dexie = new DexieClient(table);
@@ -12,7 +12,7 @@ export const useDexieQuery = (table: DbTable) =>
     queryKey: [table, 'get-all'],
   });
 
-export const useDexieMutation = (table: DbTable) =>
+export const useDexieMutation = (table: DatabaseTable) =>
   useMutation({
     mutationFn: (data: any) => {
       const dexie = new DexieClient(table);

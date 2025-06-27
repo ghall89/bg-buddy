@@ -14,7 +14,7 @@ export default function RootLayout({
       <body>
         <Providers>
           <Nav />
-          <main className="mx-4">{children}</main>
+          <main className="mx-4 mb-20">{children}</main>
           <BottomTabs />
         </Providers>
       </body>

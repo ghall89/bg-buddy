@@ -10,17 +10,17 @@ export default class BoardGameGeekClient {
   async search(query: string): Promise<BoardGame[] | undefined> {
     const path = `/xmlapi2/search?query=${query}`;
 
-    const res = await this.getRequest(path);
+    const response = await this.getRequest(path);
 
-    return this.parseResults(res);
+    return this.parseResults(response);
   }
 
   async gameById(id: string) {
     const path = `/xmlapi2/search?thing=${id}`;
 
-    const res = await this.getRequest(path);
+    const response = await this.getRequest(path);
 
-    return this.parseGameData(res);
+    return this.parseGameData(response);
   }
 
   private async getRequest(path: string): Promise<Response> {
@@ -37,30 +37,30 @@ export default class BoardGameGeekClient {
   private async parseResults(
     response: Response,
   ): Promise<BggSearchResponse | undefined> {
-    const resultsArr: BggSearchResponse = [];
+    const resultsArray: BggSearchResponse = [];
 
     try {
       const xml = await response.text();
-      const obj = convert.xml2js(xml) as BoardGameXml;
+      const object = convert.xml2js(xml) as BoardGameXml;
 
-      const elements = obj.elements?.[0]?.elements || [];
+      const elements = object.elements?.[0]?.elements || [];
 
-      elements.forEach((el) => {
-        const title = el.elements.find((e) => e.name === 'name');
+      for (const element of elements) {
+        const title = element.elements.find(({ name }) => name === 'name');
 
         if (!title) return;
 
-        resultsArr.push({
-          bggId: el.attributes.id,
+        resultsArray.push({
+          bggId: element.attributes.id,
           title: title.attributes.value,
-          url: `${this.baseUrl}/boardgame/${el.attributes.id}`,
+          url: `${this.baseUrl}/boardgame/${element.attributes.id}`,
         });
-      });
+      }
     } catch (error) {
-      return;
+      throw error;
     }
 
-    return resultsArr;
+    return resultsArray;
   }
 
   private async parseGameData(response: Response): Promise<BggDetailsResponse> {
@@ -77,13 +77,13 @@ export default class BoardGameGeekClient {
         img: result?.items?.item?.thumbnail?._text,
         description: result?.items?.item?.description?._text,
         minPlayers: result?.items?.item?.minplayers?._attributes?.value
-          ? parseInt(result.items.item.minplayers._attributes.value)
+          ? Number(result.items.item.minplayers._attributes.value)
           : undefined,
         maxPlayers: result?.items?.item?.maxplayers?._attributes?.value
-          ? parseInt(result.items.item.maxplayers._attributes.value)
+          ? Number(result.items.item.maxplayers._attributes.value)
           : undefined,
         avgPlaytime: result?.items?.item?.playingtime?._attributes?.value
-          ? parseInt(result.items.item.playingtime._attributes.value)
+          ? Number(result.items.item.playingtime._attributes.value)
           : undefined,
       };
     } catch (error) {

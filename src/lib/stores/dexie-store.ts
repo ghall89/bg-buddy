@@ -1,15 +1,15 @@
 import { create } from 'zustand';
 
-import DexieClient, { DbTable } from '../clients/dexie-client';
+import DexieClient, { DatabaseTable } from '../clients/dexie-client';
 
 interface DexieStore {
   items: any;
-  fetchAll: (t: DbTable) => void;
+  fetchAll: (t: DatabaseTable) => void;
 }
 
 export const dexieStore = create<DexieStore>((set) => ({
   items: [],
-  fetchAll: (table: DbTable) => {
+  fetchAll: (table: DatabaseTable) => {
     const dexie = new DexieClient(table);
 
     const items = dexie.getAll();

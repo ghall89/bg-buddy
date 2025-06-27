@@ -1,5 +1,7 @@
+// @ts-ignore
+
 module.exports = {
-  extends: ['next/core-web-vitals'],
+  extends: ['next/core-web-vitals', 'plugin:unicorn/recommended'],
   env: {
     browser: true,
     node: true,
@@ -8,6 +10,7 @@ module.exports = {
   plugins: ['prettier', 'react', 'react-hooks'],
   rules: {
     'react/no-children-prop': 'off',
+    'unicorn/prevent-abbreviations': 'off',
   },
   settings: {
     react: {
