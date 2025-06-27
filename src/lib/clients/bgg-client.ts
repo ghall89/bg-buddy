@@ -1,10 +1,10 @@
 import convert from 'xml-js';
 
 export default class BoardGameGeekClient {
-  baseUrl: string;
+  BASE_URL: string;
 
   constructor() {
-    this.baseUrl = 'https://boardgamegeek.com';
+    this.BASE_URL = 'https://boardgamegeek.com' as const;
   }
 
   async search(query: string): Promise<BoardGame[] | undefined> {
@@ -16,7 +16,7 @@ export default class BoardGameGeekClient {
   }
 
   async gameById(id: string) {
-    const path = `/xmlapi2/search?thing=${id}`;
+    const path = `/xmlapi/boardgame/${id}`;
 
     const response = await this.getRequest(path);
 
@@ -24,7 +24,7 @@ export default class BoardGameGeekClient {
   }
 
   private async getRequest(path: string): Promise<Response> {
-    const url = `${this.baseUrl}${path}`;
+    const url = `${this.BASE_URL}${path}`;
 
     const response = await fetch(url);
     if (!response.ok) {
@@ -53,7 +53,7 @@ export default class BoardGameGeekClient {
         resultsArray.push({
           bggId: element.attributes.id,
           title: title.attributes.value,
-          url: `${this.baseUrl}/boardgame/${element.attributes.id}`,
+          url: `${this.BASE_URL}/boardgame/${element.attributes.id}`,
         });
       }
     } catch (error) {
@@ -71,19 +71,25 @@ export default class BoardGameGeekClient {
 
       const result = convert.xml2js(xml, { compact: true }) as GameDetailsXml;
 
+      const {
+        boardgames: { boardgame },
+      } = result;
+
       gameData = {
-        bggId: result?.items?.item?._attributes?.objectid,
-        title: result?.items?.item.name?._text,
-        img: result?.items?.item?.thumbnail?._text,
-        description: result?.items?.item?.description?._text,
-        minPlayers: result?.items?.item?.minplayers?._attributes?.value
-          ? Number(result.items.item.minplayers._attributes.value)
+        bggId: boardgame?._attributes?.objectid,
+        title: boardgame?.name?.find(
+          (name) => name._attributes?.primary === 'true',
+        )?._text,
+        img: boardgame?.image?._text,
+        description: boardgame?.description?._text,
+        minPlayers: boardgame?.minplayers?._text
+          ? Number(boardgame.minplayers._text)
           : undefined,
-        maxPlayers: result?.items?.item?.maxplayers?._attributes?.value
-          ? Number(result.items.item.maxplayers._attributes.value)
+        maxPlayers: boardgame?.maxplayers?._text
+          ? Number(boardgame.maxplayers._text)
           : undefined,
-        avgPlaytime: result?.items?.item?.playingtime?._attributes?.value
-          ? Number(result.items.item.playingtime._attributes.value)
+        avgPlaytime: boardgame?.playingtime?._text
+          ? Number(boardgame.playingtime._text)
           : undefined,
       };
     } catch (error) {
@@ -129,34 +135,34 @@ export interface BoardGameXml {
 }
 
 export interface GameDetailsXml {
-  items: {
-    item: {
+  boardgames: {
+    boardgame: {
       _attributes: {
         objectid: string;
       };
       name: {
+        _attributes: {
+          primary?: 'true' | 'false';
+        };
+        _text: string;
+      }[];
+      thumbnail: {
         _text: string;
       };
-      thumbnail: {
+      image: {
         _text: string;
       };
       description: {
         _text: string;
       };
       minplayers: {
-        _attributes: {
-          value: string;
-        };
+        _text: string;
       };
       maxplayers: {
-        _attributes: {
-          value: string;
-        };
+        _text: string;
       };
       playingtime: {
-        _attributes: {
-          value: string;
-        };
+        _text: string;
       };
     };
   };

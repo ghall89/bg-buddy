@@ -6,6 +6,7 @@ export const games = pgTable('game', {
   ...creationInfo,
   bgg_id: varchar().unique().notNull(),
   title: varchar().notNull(),
+  image: varchar(),
   min_players: smallint(),
   max_players: smallint(),
   best_player_count: smallint(),

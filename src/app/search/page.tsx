@@ -15,9 +15,6 @@ interface SearchStore {
   handleSearch: () => void;
   results: BoardGame[];
   loading: boolean;
-  page: number;
-  totalPages: number;
-  setPage: (p: number) => void;
 }
 
 const ITEMS_PER_PAGE = 15 as const;
@@ -34,40 +31,20 @@ const searchStore = create<SearchStore>((set, get) => ({
       return;
     }
 
-    set({ loading: true, page: 1, totalPages: 0 });
+    set({ loading: true });
 
     const results = await handleSearch(query);
 
     const totalPages = Math.ceil((results?.length ?? 0) / ITEMS_PER_PAGE);
 
-    set({ results, totalPages, loading: false });
+    set({ results, loading: false });
   },
   results: [],
   loading: false,
-  page: 1,
-  totalPages: 0,
-  setPage: (page: number) => {
-    set({ page });
-  },
 }));
 
 export default function Page() {
-  const {
-    query,
-    setQuery,
-    handleSearch,
-    loading,
-    results,
-    page,
-    setPage,
-    totalPages,
-  } = searchStore();
-
-  const currentPageMemo = useMemo<BoardGame[]>(() => {
-    const startIndex = (page - 1) * ITEMS_PER_PAGE;
-
-    return results.splice(startIndex, ITEMS_PER_PAGE);
-  }, [results, page]);
+  const { query, setQuery, handleSearch, loading, results } = searchStore();
 
   return (
     <div>
@@ -80,19 +57,11 @@ export default function Page() {
 
       <Listbox className="my-4">
         {results?.map((result) => (
-          <ListboxItem key={result.bggId}>{result.title}</ListboxItem>
+          <ListboxItem href={`/games/${result.bggId}`} key={result.bggId}>
+            {result.title}
+          </ListboxItem>
         ))}
       </Listbox>
-
-      {totalPages > 1 && (
-        <div className="flex justify-center">
-          <Pagination
-            initialPage={page}
-            onChange={setPage}
-            total={totalPages}
-          />
-        </div>
-      )}
     </div>
   );
 }
