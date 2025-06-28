@@ -9,7 +9,7 @@ import GameCard from './components/game-card';
 export default function Page() {
   const params = useParams<{ bggId: string }>();
 
-  const { game, loading } = useFetchGame(params.bggId);
+  const { game, isLoading } = useFetchGame(params.bggId);
 
   return (
     <div>

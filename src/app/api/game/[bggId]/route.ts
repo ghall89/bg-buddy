@@ -1,4 +1,3 @@
-// /app/api/game/[bggId]/route.ts
 import { NextResponse } from 'next/server';
 
 import BoardGameGeekClient from '@/lib/clients/bgg-client';
@@ -15,6 +14,8 @@ export async function GET(
 
   let game = await gameService.gameByBGGId(bggId);
 
+  /* If a record with a matching Board Game Geek ID is not found
+  find it via API and add it to the database */
   if (!game) {
     const bggGame = await bgg.gameById(bggId);
     game = await gameService.addGame({

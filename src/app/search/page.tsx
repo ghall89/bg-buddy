@@ -1,19 +1,16 @@
 'use client';
 
-import { Listbox, ListboxItem, Pagination, Spinner } from '@heroui/react';
-import { useMemo } from 'react';
+import { Listbox, ListboxItem, Spinner } from '@heroui/react';
 import { create } from 'zustand';
 
 import SearchField from '@/components/ui/search-field';
-import type { BoardGame } from '@/lib/clients/bgg-client';
-
-import { handleSearch } from './handle-search';
+import type { SearchResult } from '@/lib/clients/bgg-client';
 
 interface SearchStore {
   query: string;
   setQuery: (v: string) => void;
   handleSearch: () => void;
-  results: BoardGame[];
+  results: SearchResult[];
   loading: boolean;
 }
 
@@ -33,9 +30,7 @@ const searchStore = create<SearchStore>((set, get) => ({
 
     set({ loading: true });
 
-    const results = await handleSearch(query);
-
-    const totalPages = Math.ceil((results?.length ?? 0) / ITEMS_PER_PAGE);
+    const results = await fetch(`/api/search/${query}`);
 
     set({ results, loading: false });
   },

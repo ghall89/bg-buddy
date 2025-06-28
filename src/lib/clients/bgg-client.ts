@@ -7,22 +7,31 @@ export default class BoardGameGeekClient {
     this.BASE_URL = 'https://boardgamegeek.com' as const;
   }
 
-  async search(query: string): Promise<BoardGame[] | undefined> {
+  /**
+   * Search the BGG API for the given query and return an array of results.
+   */
+  async search(query: string): Promise<SearchResult[] | undefined> {
     const path = `/xmlapi2/search?query=${query}`;
 
     const response = await this.getRequest(path);
 
-    return this.parseResults(response);
+    return this.parseXmlResponse(response, this.parseResults);
   }
 
+  /**
+   * Fetch a board game from BGG API by its ID and return the response
+   */
   async gameById(id: string) {
     const path = `/xmlapi/boardgame/${id}`;
 
     const response = await this.getRequest(path);
 
-    return this.parseGameData(response);
+    return this.parseXmlResponse(response, this.parseGameData);
   }
 
+  /**
+   * Handle request to the BGG API
+   */
   private async getRequest(path: string): Promise<Response> {
     const url = `${this.BASE_URL}${path}`;
 
@@ -34,13 +43,30 @@ export default class BoardGameGeekClient {
     return response;
   }
 
-  private async parseResults(
+  /**
+   * Parses an XML HTTP response using a custom parsing function.
+   */
+  private async parseXmlResponse<T>(
     response: Response,
+    parseFn: (xml: string) => T,
+  ): Promise<T> {
+    try {
+      const xml = await response.text();
+      return parseFn(xml);
+    } catch (error) {
+      throw new Error(`Failed to parse XML: ${(error as Error).message}`);
+    }
+  }
+
+  /**
+   * Parses a BGG XML search response into a list of game search results.
+   */
+  private async parseResults(
+    xml: string,
   ): Promise<BggSearchResponse | undefined> {
     const resultsArray: BggSearchResponse = [];
 
     try {
-      const xml = await response.text();
       const object = convert.xml2js(xml) as BoardGameXml;
 
       const elements = object.elements?.[0]?.elements || [];
@@ -63,12 +89,13 @@ export default class BoardGameGeekClient {
     return resultsArray;
   }
 
-  private async parseGameData(response: Response): Promise<BggDetailsResponse> {
+  /**
+   * Parses a BGG XML board game response into structured game data.
+   */
+  private async parseGameData(xml: string): Promise<BggDetailsResponse> {
     let gameData: BggDetailsResponse;
 
     try {
-      const xml = await response.text();
-
       const result = convert.xml2js(xml, { compact: true }) as GameDetailsXml;
 
       const {
@@ -100,10 +127,10 @@ export default class BoardGameGeekClient {
   }
 }
 
-export type BggSearchResponse = BoardGame[];
+export type BggSearchResponse = SearchResult[];
 export type BggDetailsResponse = GameDetails;
 
-export interface BoardGame {
+export interface SearchResult {
   bggId: string;
   title: string;
   url: string;

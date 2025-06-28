@@ -22,18 +22,30 @@ export default class DexieClient<K extends DatabaseTable> {
     }
   }
 
+  /**
+   * Add and return an item to the local IndexedDB
+   */
   add(item: EntityFromTable<K>) {
     return this.runAction(() => this.table.add(item));
   }
 
+  /**
+   * Update and return an item in the local IndexedDB
+   */
   update(id: number, update: Partial<EntityFromTable<K>>) {
     return this.runAction(() => this.table.update(id, update));
   }
 
+  /**
+   * Get and return all of a given item type in the local IndexedDB
+   */
   getAll() {
     return this.runAction(() => this.table.toArray());
   }
 
+  /**
+   * Update and return an item in the local IndexedDB
+   */
   find(field: string, value: any) {
     return this.runAction(() =>
       this.table.where(field).equals(value).toArray(),

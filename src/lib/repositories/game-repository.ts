@@ -12,6 +12,9 @@ export default class GameRepository extends BaseClient<Game> {
     super(games, games.id);
   }
 
+  /**
+   * Find and return a game by its Board Game Geek ID.
+   */
   async findByBGGId(bggId: string): Promise<Game | undefined> {
     const result = await this.db
       .select()
@@ -21,6 +24,9 @@ export default class GameRepository extends BaseClient<Game> {
     return result[0] as Game | undefined;
   }
 
+  /**
+   * Find and return games by number of players.
+   */
   async findByPlayerCount(players: number): Promise<Game[]> {
     const result = await this.db.query.games.findMany({
       where: and(
