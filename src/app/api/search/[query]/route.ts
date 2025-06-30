@@ -4,9 +4,9 @@ import BoardGameGeekClient from '@/lib/clients/bgg-client';
 
 export async function GET(
   req: Request,
-  { params }: { params: { query: string } },
+  { params }: { params: Promise<{ query: string }> },
 ) {
-  const { query } = params;
+  const { query } = await params;
 
   const bgg = new BoardGameGeekClient();
 

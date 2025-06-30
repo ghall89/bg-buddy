@@ -5,9 +5,9 @@ import GameService from '@/lib/services/game-service';
 
 export async function GET(
   req: Request,
-  { params }: { params: { bggId: string } },
+  { params }: { params: Promise<{ bggId: string }> },
 ) {
-  const { bggId } = params;
+  const { bggId } = await params;
 
   const gameService = new GameService();
   const bgg = new BoardGameGeekClient();

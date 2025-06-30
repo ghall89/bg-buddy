@@ -4,7 +4,7 @@ import { Listbox, ListboxItem, Spinner } from '@heroui/react';
 import { create } from 'zustand';
 
 import SearchField from '@/components/ui/search-field';
-import type { SearchResult } from '@/lib/clients/bgg-client';
+import type { SearchResult } from '@/lib/types';
 
 interface SearchStore {
   query: string;
@@ -30,7 +30,9 @@ const searchStore = create<SearchStore>((set, get) => ({
 
     set({ loading: true });
 
-    const results = await fetch(`/api/search/${query}`);
+    const res = await fetch(`/api/search/${query}`);
+
+    const results = (await res.json()) as SearchResult[];
 
     set({ results, loading: false });
   },

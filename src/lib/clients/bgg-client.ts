@@ -1,11 +1,16 @@
 import convert from 'xml-js';
 
-export default class BoardGameGeekClient {
-  BASE_URL: string;
+import { tryCatch } from '../helpers/try-catch';
+import type {
+  BggDetailsResponse,
+  BggSearchResponse,
+  BoardGameXml,
+  GameDetailsXml,
+  SearchResult,
+} from '../types/board-game-geek';
 
-  constructor() {
-    this.BASE_URL = 'https://boardgamegeek.com' as const;
-  }
+export default class BoardGameGeekClient {
+  BASE_URL = 'https://boardgamegeek.com';
 
   /**
    * Search the BGG API for the given query and return an array of results.
@@ -13,9 +18,12 @@ export default class BoardGameGeekClient {
   async search(query: string): Promise<SearchResult[] | undefined> {
     const path = `/xmlapi2/search?query=${query}`;
 
-    const response = await this.getRequest(path);
+    const response = await tryCatch(
+      () => this.getRequest(path),
+      'Error searching BGG API',
+    );
 
-    return this.parseXmlResponse(response, this.parseResults);
+    return this.parseXmlResponse(response as Response, this.parseResults);
   }
 
   /**
@@ -24,9 +32,12 @@ export default class BoardGameGeekClient {
   async gameById(id: string) {
     const path = `/xmlapi/boardgame/${id}`;
 
-    const response = await this.getRequest(path);
+    const response = await tryCatch(
+      () => this.getRequest(path),
+      'Error fetching game via API by ID',
+    );
 
-    return this.parseXmlResponse(response, this.parseGameData);
+    return this.parseXmlResponse(response as Response, this.parseGameData);
   }
 
   /**
@@ -35,12 +46,15 @@ export default class BoardGameGeekClient {
   private async getRequest(path: string): Promise<Response> {
     const url = `${this.BASE_URL}${path}`;
 
+    console.info('URL:', url);
+
     const response = await fetch(url);
-    if (!response.ok) {
-      throw new Error(`Response status: ${response.status}`);
+
+    if (!response?.ok) {
+      throw new Error(`Response status: ${response?.status}`);
     }
 
-    return response;
+    return response as Response;
   }
 
   /**
@@ -50,12 +64,9 @@ export default class BoardGameGeekClient {
     response: Response,
     parseFn: (xml: string) => T,
   ): Promise<T> {
-    try {
-      const xml = await response.text();
-      return parseFn(xml);
-    } catch (error) {
-      throw new Error(`Failed to parse XML: ${(error as Error).message}`);
-    }
+    const xml = await tryCatch(() => response.text(), 'Error parsing XML');
+
+    return parseFn(xml as string);
   }
 
   /**
@@ -79,7 +90,6 @@ export default class BoardGameGeekClient {
         resultsArray.push({
           bggId: element.attributes.id,
           title: title.attributes.value,
-          url: `${this.BASE_URL}/boardgame/${element.attributes.id}`,
         });
       }
     } catch (error) {
@@ -104,9 +114,11 @@ export default class BoardGameGeekClient {
 
       gameData = {
         bggId: boardgame?._attributes?.objectid,
-        title: boardgame?.name?.find(
-          (name) => name._attributes?.primary === 'true',
-        )?._text,
+        title: Array.isArray(boardgame.name)
+          ? boardgame?.name?.find(
+              (name) => name._attributes?.primary === 'true',
+            )?._text
+          : boardgame.name?._text,
         img: boardgame?.image?._text,
         description: boardgame?.description?._text,
         minPlayers: boardgame?.minplayers?._text
@@ -125,72 +137,4 @@ export default class BoardGameGeekClient {
 
     return gameData;
   }
-}
-
-export type BggSearchResponse = SearchResult[];
-export type BggDetailsResponse = GameDetails;
-
-export interface SearchResult {
-  bggId: string;
-  title: string;
-  url: string;
-}
-export interface GameDetails {
-  bggId?: string;
-  title?: string;
-  img?: string;
-  description?: string;
-  minPlayers?: number;
-  maxPlayers?: number;
-  avgPlaytime?: number;
-}
-
-export interface BoardGameXml {
-  elements: {
-    elements: {
-      attributes: {
-        id: string;
-      };
-      elements: {
-        name: string;
-        attributes: {
-          value: string;
-        };
-      }[];
-    }[];
-  }[];
-}
-
-export interface GameDetailsXml {
-  boardgames: {
-    boardgame: {
-      _attributes: {
-        objectid: string;
-      };
-      name: {
-        _attributes: {
-          primary?: 'true' | 'false';
-        };
-        _text: string;
-      }[];
-      thumbnail: {
-        _text: string;
-      };
-      image: {
-        _text: string;
-      };
-      description: {
-        _text: string;
-      };
-      minplayers: {
-        _text: string;
-      };
-      maxplayers: {
-        _text: string;
-      };
-      playingtime: {
-        _text: string;
-      };
-    };
-  };
 }

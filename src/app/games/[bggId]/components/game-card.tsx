@@ -23,7 +23,7 @@ export default function GameCard({ game }: GameCardProps) {
           <Image
             alt=""
             className="object-cover rounded-xl"
-            src={game.image}
+            src={game?.image ?? undefined}
             width={270}
           />
         </CardBody>

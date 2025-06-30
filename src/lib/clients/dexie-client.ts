@@ -2,6 +2,8 @@ import { Table } from 'dexie';
 
 import { db } from '@/db/dexie';
 
+import { tryCatchSync } from '../helpers/try-catch';
+
 export type DatabaseTable = keyof typeof db;
 
 type EntityFromTable<K extends DatabaseTable> =
@@ -14,41 +16,51 @@ export default class DexieClient<K extends DatabaseTable> {
     this.table = db[table] as unknown as Table<EntityFromTable<K>, number>;
   }
 
-  private runAction<T>(action: () => Promise<T>): Promise<T> {
-    try {
-      return action();
-    } catch (error) {
-      return Promise.reject(error);
-    }
-  }
-
   /**
    * Add and return an item to the local IndexedDB
    */
   add(item: EntityFromTable<K>) {
-    return this.runAction(() => this.table.add(item));
+    const result = tryCatchSync(
+      () => this.table.add(item),
+      'Error adding to IndexedDB',
+    );
+
+    return result;
   }
 
   /**
    * Update and return an item in the local IndexedDB
    */
   update(id: number, update: Partial<EntityFromTable<K>>) {
-    return this.runAction(() => this.table.update(id, update));
+    const result = tryCatchSync(
+      () => this.table.update(id, update),
+      'Error updating item in IndexedDB',
+    );
+
+    return result;
   }
 
   /**
    * Get and return all of a given item type in the local IndexedDB
    */
   getAll() {
-    return this.runAction(() => this.table.toArray());
+    const result = tryCatchSync(
+      () => this.table.toArray(),
+      'Error getting all items of a given type',
+    );
+
+    return result;
   }
 
   /**
    * Update and return an item in the local IndexedDB
    */
   find(field: string, value: any) {
-    return this.runAction(() =>
-      this.table.where(field).equals(value).toArray(),
+    const result = tryCatchSync(
+      () => this.table.where(field).equals(value).toArray(),
+      'Error finding item in IndexedDB',
     );
+
+    return result;
   }
 }
