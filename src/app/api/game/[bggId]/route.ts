@@ -1,34 +1,47 @@
+import { type GameDetails, gameById } from 'bgg-client';
 import { NextResponse } from 'next/server';
 
-import BoardGameGeekClient from '@/lib/clients/bgg-client';
 import GameService from '@/lib/services/game-service';
 
 export async function GET(
-  req: Request,
+  _req: Request,
   { params }: { params: Promise<{ bggId: string }> },
 ) {
-  const { bggId } = await params;
+  try {
+    const { bggId } = await params;
 
-  const gameService = new GameService();
-  const bgg = new BoardGameGeekClient();
+    const gameService = new GameService();
 
-  let game = await gameService.gameByBGGId(bggId);
+    let game = await gameService.gameByBGGId(bggId);
 
-  /* If a record with a matching Board Game Geek ID is not found
-  find it via API and add it to the database */
-  if (!game) {
-    const bggGame = await bgg.gameById(bggId);
-    game = await gameService.addGame({
-      bgg_id: bggId,
-      title: bggGame.title!,
-      image: bggGame.img,
-      description: bggGame.description,
-      min_players: bggGame.minPlayers,
-      max_players: bggGame.maxPlayers,
-      best_player_count: 0,
-      est_playtime: bggGame.avgPlaytime,
-    });
+    if (!game) {
+      const bggGame = (await gameById(bggId)) as GameDetails;
+
+      if (!bggGame || !bggGame.title) {
+        return NextResponse.json(
+          { error: 'Invalid game data received from BGG' },
+          { status: 502 },
+        );
+      }
+
+      game = await gameService.addGame({
+        bgg_id: bggId,
+        title: bggGame.title,
+        image: bggGame.img,
+        description: bggGame.description,
+        min_players: bggGame.minPlayers,
+        max_players: bggGame.maxPlayers,
+        best_player_count: undefined,
+        est_playtime: bggGame.avgPlaytime,
+      });
+    }
+
+    return NextResponse.json(game);
+  } catch (error) {
+    console.error('Failed to handle GET /api/game/[bggId]:', error);
+    return NextResponse.json(
+      { error: 'Error while fetching game details' },
+      { status: 500 },
+    );
   }
-
-  return NextResponse.json(game);
 }

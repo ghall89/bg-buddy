@@ -1,4 +1,5 @@
-import { tryCatch } from '../helpers/try-catch';
+import { tryCatch } from 'try-catcher-ts';
+
 import GameRepository, { Game, NewGame } from '../repositories/game-repository';
 
 export default class GameService {

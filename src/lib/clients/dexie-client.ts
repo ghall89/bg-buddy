@@ -1,8 +1,7 @@
 import { Table } from 'dexie';
+import { tryCatchSync } from 'try-catcher-ts';
 
 import { db } from '@/db/dexie';
-
-import { tryCatchSync } from '../helpers/try-catch';
 
 export type DatabaseTable = keyof typeof db;
 
