@@ -1,12 +1,16 @@
 'use client';
 
+import { useEffect } from 'react';
+
 import { dexieStore } from '@/lib/stores/dexie-store';
-import { CollectionGame } from '@/lib/types';
 
 export default function Page() {
   const store = dexieStore();
 
-  store.fetchAll('games');
+  useEffect(() => {
+    store.fetchAll('games');
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return <h1>Hello Collection</h1>;
 }

@@ -6,7 +6,7 @@ import { db } from '@/db/dexie';
 export type DatabaseTable = keyof typeof db;
 
 type EntityFromTable<K extends DatabaseTable> =
-  (typeof db)[K] extends Table<infer T, any> ? T : never;
+  (typeof db)[K] extends Table<infer T, any> ? T : unknown;
 
 export default class DexieClient<K extends DatabaseTable> {
   table: Table<EntityFromTable<K>, number>;
@@ -32,7 +32,7 @@ export default class DexieClient<K extends DatabaseTable> {
    */
   update(id: number, update: Partial<EntityFromTable<K>>) {
     const result = tryCatchSync(
-      () => this.table.update(id, update),
+      () => this.table.update(id, update as any),
       'Error updating item in IndexedDB',
     );
 
