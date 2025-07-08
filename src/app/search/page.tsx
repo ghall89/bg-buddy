@@ -1,10 +1,10 @@
 'use client';
 
 import { Listbox, ListboxItem, Spinner } from '@heroui/react';
+import type { SearchResult } from 'bgg-client';
 import { create } from 'zustand';
 
 import SearchField from '@/components/ui/search-field';
-import type { SearchResult } from '@/lib/types';
 
 interface SearchStore {
   query: string;

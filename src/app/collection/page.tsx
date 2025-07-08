@@ -1,7 +1,7 @@
 'use client';
 
-import { CollectionGame } from '@/db/dexie';
 import { dexieStore } from '@/lib/stores/dexie-store';
+import { CollectionGame } from '@/lib/types';
 
 export default function Page() {
   const store = dexieStore();
