@@ -9,7 +9,7 @@ import { useFetchGame } from '@/lib/hooks/use-fetch-game';
 import Drawer from '../ui/drawer';
 
 export default function GameDetails() {
-  const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const searchParams = useSearchParams();
   const { push } = useRouter();
 
@@ -45,7 +45,7 @@ export default function GameDetails() {
           <Image
             alt=""
             className="object-cover rounded-xl"
-            src={game?.image ?? undefined}
+            src={game.image ?? undefined}
             width={270}
           />
           <p className="text-tiny uppercase font-bold">

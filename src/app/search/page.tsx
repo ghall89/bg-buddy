@@ -3,6 +3,7 @@
 import { Listbox, ListboxItem, Spinner } from '@heroui/react';
 import type { SearchResult } from 'bgg-client';
 import { useRouter } from 'next/navigation';
+import { Suspense } from 'react';
 import { create } from 'zustand';
 
 import GameDetails from '@/components/content/game-details';
@@ -66,7 +67,9 @@ export default function Page() {
           </ListboxItem>
         ))}
       </Listbox>
-      <GameDetails />
+      <Suspense fallback={null}>
+        <GameDetails />
+      </Suspense>
     </div>
   );
 }
