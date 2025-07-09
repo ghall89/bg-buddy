@@ -11,6 +11,7 @@ module.exports = {
   rules: {
     'react/no-children-prop': 'off',
     'unicorn/prevent-abbreviations': 'off',
+    'unicorn/no-null': 'off',
   },
   settings: {
     react: {

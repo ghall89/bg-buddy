@@ -1,11 +1,16 @@
-import { redirect } from 'next/navigation';
+'use client';
+
+import { useEffect } from 'react';
+
+import { dexieStore } from '@/lib/stores/dexie-store';
 
 export default function Page() {
-  redirect('/collection');
+  const store = dexieStore();
 
-  return (
-    <div>
-      <h1>Hello World</h1>
-    </div>
-  );
+  useEffect(() => {
+    store.fetchAll('games');
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  return <h1>Hello Collection</h1>;
 }

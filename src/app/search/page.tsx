@@ -2,8 +2,10 @@
 
 import { Listbox, ListboxItem, Spinner } from '@heroui/react';
 import type { SearchResult } from 'bgg-client';
+import { useRouter } from 'next/navigation';
 import { create } from 'zustand';
 
+import GameDetails from '@/components/content/game-details';
 import SearchField from '@/components/ui/search-field';
 
 interface SearchStore {
@@ -13,8 +15,6 @@ interface SearchStore {
   results: SearchResult[];
   loading: boolean;
 }
-
-const ITEMS_PER_PAGE = 15 as const;
 
 const searchStore = create<SearchStore>((set, get) => ({
   query: '',
@@ -43,6 +43,8 @@ const searchStore = create<SearchStore>((set, get) => ({
 export default function Page() {
   const { query, setQuery, handleSearch, loading, results } = searchStore();
 
+  const { push } = useRouter();
+
   return (
     <div>
       <SearchField
@@ -54,11 +56,17 @@ export default function Page() {
 
       <Listbox className="my-4">
         {results?.map((result) => (
-          <ListboxItem href={`/games/${result.bggId}`} key={result.bggId}>
+          <ListboxItem
+            onClick={() => {
+              push(`?id=${result.bggId}`);
+            }}
+            key={result.bggId}
+          >
             {result.title}
           </ListboxItem>
         ))}
       </Listbox>
+      <GameDetails />
     </div>
   );
 }
