@@ -1,7 +1,0 @@
-{
-  "singleQuote": true,
-  "quoteProps": "consistent",
-  "tabWidth": 2,
-  "plugins": [],
-  "binaryNextLine": true
-}
