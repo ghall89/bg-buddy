@@ -5,16 +5,17 @@
  * It is included in `src/index.html`.
  */
 
-import { createRoot } from "react-dom/client";
-import { App } from "./App";
+import { createRoot } from 'react-dom/client';
+import { RouterProvider } from '@tanstack/react-router';
+import { router } from './router';
 
 function start() {
-  const root = createRoot(document.getElementById("root")!);
-  root.render(<App />);
+  const root = createRoot(document.getElementById('root')!);
+  root.render(<RouterProvider router={router} />);
 }
 
-if (document.readyState === "loading") {
-  document.addEventListener("DOMContentLoaded", start);
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', start);
 } else {
   start();
 }

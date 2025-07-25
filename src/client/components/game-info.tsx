@@ -1,12 +1,20 @@
 import { useEffect, useState } from 'react';
 import { type GameDetails } from 'bgg-client';
 
-export function GameInfo() {
+import { Loading } from './loading';
+
+interface GameInfoProps {
+  bggId: string;
+}
+
+export function GameInfo({ bggId }: GameInfoProps) {
   const [data, setData] = useState<GameDetails | null>(null);
 
   useEffect(() => {
     async function fetchData() {
-      const res = await fetch('/games/167791');
+      const url = `/api/games/${bggId}`;
+
+      const res = await fetch(url);
       const json = await res.json();
 
       console.log(json);
@@ -15,7 +23,7 @@ export function GameInfo() {
     }
 
     fetchData();
-  }, []);
+  }, [bggId]);
 
   return (
     <article>
@@ -27,7 +35,7 @@ export function GameInfo() {
           ))}
         </>
       ) : (
-        <h2>Loading...</h2>
+        <Loading />
       )}
     </article>
   );
