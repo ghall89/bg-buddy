@@ -1,36 +1,36 @@
-import { neon } from '@neondatabase/serverless';
-
-const sql = neon(process.env.DATABASE_URL);
+import { DatabaseController } from './db-controller';
 
 export async function handleCache(
-  table: string,
-  id: string,
-  dataFunction: () => Promise<string>,
+	table: string,
+	id: string,
+	dataFunction: () => Promise<string>,
 ): Promise<Response> {
-  let response;
+	const db = new DatabaseController();
 
-  const allowedTables = ['games'];
-  if (!allowedTables.includes(table)) {
-    throw new Error('Invalid table name');
-  }
+	let response: string;
 
-  const cachedData = await sql.query(
-    `SELECT * FROM ${table} WHERE bgg_id = $1`,
-    [id],
-  );
+	const allowedTables = ['games'];
+	if (!allowedTables.includes(table)) {
+		throw new Error('Invalid table name');
+	}
 
-  if (cachedData.length === 0) {
-    const fetchedData = await dataFunction();
-    const dataAsString = JSON.stringify(fetchedData);
-    await sql.query(
-      `INSERT INTO ${table}(bgg_id, data, updated_dt) VALUES ($1, $2, $3)`,
-      [id, dataAsString, new Date()],
-    );
-    response = dataAsString;
-  } else {
-    console.log('Getting data from cache');
-    response = cachedData[0].data;
-  }
+	const cachedData = await db.select(table, 'bgg_id', id);
 
-  return new Response(response);
+	if (cachedData.length === 0) {
+		const fetchedData = await dataFunction();
+		const dataAsString = JSON.stringify(fetchedData);
+
+		await db.insert(table, {
+			bgg_id: id,
+			data: dataAsString,
+			updated_dt: new Date(),
+		});
+
+		response = dataAsString;
+	} else {
+		console.log('Getting data from cache');
+		response = cachedData[0].data;
+	}
+
+	return new Response(response);
 }

@@ -1,28 +1,28 @@
 {
-  "name": "bgb-server",
-  "module": "index.ts",
-  "type": "module",
-  "private": true,
-  "scripts": {
-    "build": "bun build src/index.ts --outfile dist/server --compile --external --minify --target bun",
-    "start": "NODE_ENV=production dist/server",
-    "dev": "bun run ./src/index.ts"
-  },
-  "devDependencies": {
-    "@flydotio/dockerfile": "^0.7.10",
-    "@types/bun": "latest"
-  },
-  "peerDependencies": {
-    "typescript": "^5"
-  },
-  "dependencies": {
-    "@neondatabase/serverless": "^1.0.1",
-    "@tanstack/react-router": "^1.129.8",
-    "@types/react-dom": "^19.1.6",
-    "bgg-client": "^0.3.1",
-    "prettier": "3.6.0",
-    "react": "^19.1.0",
-    "react-dom": "^19.1.0",
-    "zustand": "^5.0.6"
-  }
+	"name": "bgb-server",
+	"module": "index.ts",
+	"type": "module",
+	"private": true,
+	"scripts": {
+		"build": "bun build src/index.ts --outfile dist/server --compile --external --minify --target bun",
+		"start": "NODE_ENV=production dist/server",
+		"dev": "bun run ./src/index.ts"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "2.1.2",
+		"@flydotio/dockerfile": "^0.7.10",
+		"@types/bun": "latest"
+	},
+	"peerDependencies": {
+		"typescript": "^5"
+	},
+	"dependencies": {
+		"@neondatabase/serverless": "^1.0.1",
+		"@tanstack/react-router": "^1.129.8",
+		"@types/react-dom": "^19.1.6",
+		"bgg-client": "^0.3.1",
+		"react": "^19.1.0",
+		"react-dom": "^19.1.0",
+		"zustand": "^5.0.6"
+	}
 }
