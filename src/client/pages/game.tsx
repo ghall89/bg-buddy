@@ -8,6 +8,7 @@ export function GameInfoPage() {
 
 	return (
 		<div>
+			<a href="/">Back</a>
 			<GameInfo bggId={bggId} />
 		</div>
 	);

@@ -1,12 +1,10 @@
-import { DatabaseController } from './db-controller';
+import { pg } from './knex';
 
 export async function handleCache(
 	table: string,
 	id: string,
 	dataFunction: () => Promise<string>,
 ): Promise<Response> {
-	const db = new DatabaseController();
-
 	let response: string;
 
 	const allowedTables = ['games'];
@@ -14,17 +12,17 @@ export async function handleCache(
 		throw new Error('Invalid table name');
 	}
 
-	const cachedData = await db.select(table, 'bgg_id', id);
+	// const cachedData = await db.select(table, 'bgg_id', id);
+
+	const cachedData = await pg.select().from(table).where({
+		bgg_id: id,
+	});
 
 	if (cachedData.length === 0) {
 		const fetchedData = await dataFunction();
 		const dataAsString = JSON.stringify(fetchedData);
 
-		await db.insert(table, {
-			bgg_id: id,
-			data: dataAsString,
-			updated_dt: new Date(),
-		});
+		await pg.insert({ bgg_id: id, data: dataAsString }).into(table);
 
 		response = dataAsString;
 	} else {
