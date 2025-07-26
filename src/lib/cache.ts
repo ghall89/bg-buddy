@@ -12,8 +12,6 @@ export async function handleCache(
 		throw new Error('Invalid table name');
 	}
 
-	// const cachedData = await db.select(table, 'bgg_id', id);
-
 	const cachedData = await pg.select().from(table).where({
 		bgg_id: id,
 	});
@@ -22,9 +20,11 @@ export async function handleCache(
 		const fetchedData = await dataFunction();
 		const dataAsString = JSON.stringify(fetchedData);
 
-		await pg.insert({ bgg_id: id, data: dataAsString }).into(table);
+		const newItem = await pg
+			.insert({ bgg_id: id, data: dataAsString }, ['data'])
+			.into(table);
 
-		response = dataAsString;
+		response = newItem[0].data;
 	} else {
 		console.log('Getting data from cache');
 		response = cachedData[0].data;
