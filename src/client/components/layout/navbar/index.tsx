@@ -1,9 +1,9 @@
 import {
 	Link,
-	Navbar as NavbarRoot,
 	NavbarBrand,
 	NavbarContent,
 	NavbarItem,
+	Navbar as NavbarRoot,
 } from '@heroui/react';
 
 import { SearchField } from './search-field';

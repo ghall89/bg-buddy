@@ -1,7 +1,7 @@
 {
-  "singleQuote": true,
-  "quoteProps": "consistent",
-  "tabWidth": 2,
-  "plugins": [],
-  "binaryNextLine": true
+	"singleQuote": true,
+	"quoteProps": "consistent",
+	"tabWidth": 2,
+	"plugins": [],
+	"binaryNextLine": true
 }

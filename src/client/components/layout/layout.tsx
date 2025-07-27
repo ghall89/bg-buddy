@@ -10,7 +10,7 @@ export function Layout({ children }: LayoutProps) {
 	return (
 		<>
 			<Navbar />
-			<main className="container">{children}</main>
+			<main className="container mx-auto">{children}</main>
 		</>
 	);
 }

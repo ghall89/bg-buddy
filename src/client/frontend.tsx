@@ -6,7 +6,7 @@
  */
 
 import { HeroUIProvider } from '@heroui/react';
-import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { RouterProvider } from '@tanstack/react-router';
 import { createRoot } from 'react-dom/client';
 import { router } from './router';
@@ -24,7 +24,6 @@ function start() {
 			<HeroUIProvider>
 				<RouterProvider router={router} />
 			</HeroUIProvider>
-			,
 		</QueryClientProvider>,
 	);
 }

@@ -1,8 +1,8 @@
 {
-  "singleQuote": true,
-  "quoteProps": "consistent",
-  "tabWidth": 2,
-  "binaryNextLine": true,
-  "importOrderSeparation": true,
-  "importOrderSortSpecifiers": true
+	"singleQuote": true,
+	"quoteProps": "consistent",
+	"tabWidth": 2,
+	"binaryNextLine": true,
+	"importOrderSeparation": true,
+	"importOrderSortSpecifiers": true
 }
