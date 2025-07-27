@@ -2,26 +2,25 @@ import { pg } from './knex';
 
 export async function handleCache(
 	table: string,
-	id: string,
+	key: string,
+	value: string,
 	dataFunction: () => Promise<string>,
 ): Promise<Response> {
 	let response: string;
 
-	const allowedTables = ['games'];
-	if (!allowedTables.includes(table)) {
-		throw new Error('Invalid table name');
-	}
-
-	const cachedData = await pg.select().from(table).where({
-		bgg_id: id,
-	});
+	const cachedData = await pg
+		.select()
+		.from(table)
+		.where({
+			[key]: value,
+		});
 
 	if (cachedData.length === 0) {
 		const fetchedData = await dataFunction();
 		const dataAsString = JSON.stringify(fetchedData);
 
 		const newItem = await pg
-			.insert({ bgg_id: id, data: dataAsString }, ['data'])
+			.insert({ [key]: value, data: dataAsString }, ['data'])
 			.into(table);
 
 		response = newItem[0].data;

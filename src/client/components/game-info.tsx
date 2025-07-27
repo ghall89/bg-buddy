@@ -1,8 +1,7 @@
+import { Heading, Section, Spinner, Text } from '@radix-ui/themes';
 import type { GameDetails } from 'bgg-client';
 import { useEffect } from 'react';
 import { create } from 'zustand';
-
-import { Loading } from './loading';
 
 interface GameInfoStore {
 	data: GameDetails | null;
@@ -32,17 +31,19 @@ export function GameInfo({ bggId }: GameInfoProps) {
 	}, [bggId, fetchData]);
 
 	return (
-		<article>
+		<Section>
 			{data ? (
 				<>
-					<h2>{data.title}</h2>
+					<Heading as="h2">{data.title}</Heading>
 					{data.description.split('\n').map((paragraph, index) => (
-						<p key={index}>{paragraph}</p>
+						<Text as="p" key={index}>
+							{paragraph}
+						</Text>
 					))}
 				</>
 			) : (
-				<Loading />
+				<Spinner />
 			)}
-		</article>
+		</Section>
 	);
 }

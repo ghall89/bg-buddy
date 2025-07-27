@@ -12,16 +12,14 @@ const server = Bun.serve({
 			GET: async (req: BunRequest & { params: { id: string } }) => {
 				const { id } = req.params;
 
-				return handleCache('games', id, () => getGame(id));
+				return handleCache('games', 'bgg_id', id, () => getGame(id));
 			},
 		},
 		'/api/search/:query': {
 			GET: async (req: BunRequest & { params: { query: string } }) => {
 				const { query } = req.params;
 
-				const results = await search(query);
-
-				return new Response(results);
+				return handleCache('searches', 'query', query, () => search(query));
 			},
 		},
 	},
