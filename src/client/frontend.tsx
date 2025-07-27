@@ -5,18 +5,27 @@
  * It is included in `src/index.html`.
  */
 
-import '@radix-ui/themes/styles.css';
-import { Theme } from '@radix-ui/themes';
+import { HeroUIProvider } from '@heroui/react';
+import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
 import { RouterProvider } from '@tanstack/react-router';
 import { createRoot } from 'react-dom/client';
 import { router } from './router';
 
+import './style.css';
+
 function start() {
+	// biome-ignore lint/style/noNonNullAssertion: <false positive>
 	const root = createRoot(document.getElementById('root')!);
+
+	const queryClient = new QueryClient();
+
 	root.render(
-		<Theme>
-			<RouterProvider router={router} />
-		</Theme>,
+		<QueryClientProvider client={queryClient}>
+			<HeroUIProvider>
+				<RouterProvider router={router} />
+			</HeroUIProvider>
+			,
+		</QueryClientProvider>,
 	);
 }
 

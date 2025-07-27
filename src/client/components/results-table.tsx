@@ -11,7 +11,9 @@ export function ResultsTable({ results }: ResultsTableProps) {
 			<Table.Body>
 				{results.map((result) => (
 					<Table.Row key={result.bggId}>
-						<Table.RowHeaderCell>{result.title}</Table.RowHeaderCell>
+						<Table.RowHeaderCell>
+							<a href={`/game/${result.bggId}`}>{result.title}</a>
+						</Table.RowHeaderCell>
 					</Table.Row>
 				))}
 			</Table.Body>

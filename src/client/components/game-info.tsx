@@ -1,49 +1,25 @@
-import { Heading, Section, Spinner, Text } from '@radix-ui/themes';
+import { CircularProgress } from '@heroui/react';
 import type { GameDetails } from 'bgg-client';
-import { useEffect } from 'react';
-import { create } from 'zustand';
-
-interface GameInfoStore {
-	data: GameDetails | null;
-	fetchData: (id: string) => void;
-}
-const gameInfoStore = create<GameInfoStore>((set) => ({
-	data: null,
-	fetchData: async (id: string) => {
-		const url = `/api/games/${id}`;
-
-		const res = await fetch(url);
-		const json = await res.json();
-
-		set({ data: json as GameDetails });
-	},
-}));
+import { useQuery } from '@tanstack/react-query';
 
 interface GameInfoProps {
 	bggId: string;
 }
 
 export function GameInfo({ bggId }: GameInfoProps) {
-	const { data, fetchData } = gameInfoStore();
+	const { data } = useQuery<GameDetails>({
+		queryFn: async () => {
+			const url = `/api/games/${bggId}`;
 
-	useEffect(() => {
-		fetchData(bggId);
-	}, [bggId, fetchData]);
+			const res = await fetch(url);
+			const json = await res.json();
+
+			return json as GameDetails;
+		},
+		queryKey: ['fetch-game', bggId],
+	});
 
 	return (
-		<Section>
-			{data ? (
-				<>
-					<Heading as="h2">{data.title}</Heading>
-					{data.description.split('\n').map((paragraph, index) => (
-						<Text as="p" key={index}>
-							{paragraph}
-						</Text>
-					))}
-				</>
-			) : (
-				<Spinner />
-			)}
-		</Section>
+		<section>{data ? <h2>{data.title}</h2> : <CircularProgress />}</section>
 	);
 }

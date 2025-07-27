@@ -1,10 +1,16 @@
-import { Container } from '@radix-ui/themes';
 import type { ReactNode } from 'react';
+
+import { Navbar } from './navbar';
 
 interface LayoutProps {
 	children: ReactNode;
 }
 
 export function Layout({ children }: LayoutProps) {
-	return <Container>{children}</Container>;
+	return (
+		<>
+			<Navbar />
+			<main className="container">{children}</main>
+		</>
+	);
 }
