@@ -4,8 +4,7 @@
 	"type": "module",
 	"private": true,
 	"scripts": {
-		"build": "bun build src/index.ts --outfile dist/server --compile --external --minify --target bun",
-		"start": "NODE_ENV=production dist/server",
+		"start": "bun run ./src/index.ts",
 		"dev": "bun run ./src/index.ts",
 		"format": "biome format --write",
 		"lint": "biome lint --write",
